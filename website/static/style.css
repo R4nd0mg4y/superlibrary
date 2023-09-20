@@ -1,0 +1,71 @@
+
+/* Style for the selected rating */
+#selected-rating {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Style for the book and note sections */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+/* Style for the book cover image */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Style for the action links (View Content, Delete, Update) */
+a {
+  text-decoration: none;
+  margin-right: 10px;
+  color: #007BFF;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Style for the buttons */
+.btn {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+/* Additional styles as needed for your specific design */
+/* Style for the star rating */
+.star-rating {
+  display: inline-block;
+  font-size: 24px;
+}
+
+.star-rating i {
+  color: #FFD700; /* Color for filled stars */
+  cursor: pointer;
+}
+
+.star-rating i.fa-star-o {
+  color: #ccc; /* Color for empty stars */
+}
+
+.star-rating i:hover {
+  color: #FFA500; /* Color for stars on hover */
+}
