@@ -127,6 +127,7 @@
                 {% for note in book.notes %}
                 <li>
                     <p>{{ note.data }} [<strong>Comment by:</strong> {{ note.users.email }}]</p>
+                    <p><strong> Time :</strong>{{ note.date_created.time() }}  {{ note.date_created.date() }}</p>
                     <div class="star-rating">
                         {% for i in range(1, note.rating + 1) %}
                             <label class="star">&#9733;</label>

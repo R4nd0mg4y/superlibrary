@@ -6,6 +6,8 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES, DOCUMENTS
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 import io 
+from datetime import datetime
+import pytz
 # from werkzeug.utils import secure_filename
 from . import db
 import os
@@ -77,6 +79,7 @@ def update(id):
         else:
             note.data = new_note_text
             note.rating = new_note_rating
+            note.date_created = datetime.now(pytz.timezone('Asia/Bangkok')).replace(microsecond=0)
             db.session.commit()
             flash('Note is updated!', category='success')
             return redirect('/')
