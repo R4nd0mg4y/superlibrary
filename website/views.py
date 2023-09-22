@@ -29,8 +29,10 @@ def home():
             if len(note) < 1:
                 flash('Note is too short!', category='error')
             else:
+                notes = Note.query.filter_by(book_id=book_id).all()
+                existing_user_ids = [note.user_id for note in notes]
                 new_note = Note(data=note, user_id=current_user.id, book_id=book_id,rating=rating)
-                if not new_note.user_id==current_user.id:
+                if not new_note.user_id in existing_user_ids:
                     db.session.add(new_note)
                     db.session.commit()
                 else:
