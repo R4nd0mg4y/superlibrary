@@ -11,7 +11,7 @@ class Book(db.Model):
     publication_date = db.Column(db.Date)
     cover = db.Column(db.String(256))  # Trường cover để lưu tên file hình ảnh
     content = db.Column(db.String(256))  # Trường content để lưu tên file PDF
-    notes = db.relationship('Note', backref='book', lazy=True) # Quan hệ một-nhiều với Ghi chú
+    notes = db.relationship('Note') # Quan hệ một-nhiều với Ghi chú
 
 # Mô hình cho Ghi chú (Notes)
 

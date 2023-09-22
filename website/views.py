@@ -3,8 +3,6 @@ from flask_login import  login_required, current_user
 import PyPDF2
 from .models import Note, User , Book 
 from flask_uploads import UploadSet, configure_uploads, IMAGES, DOCUMENTS
-from werkzeug.utils import secure_filename
-from werkzeug.datastructures import  FileStorage
 import io 
 from datetime import datetime
 import pytz

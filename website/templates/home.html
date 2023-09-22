@@ -137,10 +137,12 @@
                         {% endfor %}
                     </div>
                 </li>
+                {% if user.id == note.user_id %}
                 <a href="/delete/{{ note.id }}">Delete</a>
                 <br />
                 <a href="/update/{{ note.id }}">Update</a>
                 <br />
+                {% endif %}
                 {% endfor %}
             </ul>
         </li>
