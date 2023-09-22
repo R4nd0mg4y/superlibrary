@@ -31,3 +31,4 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(128), unique=True)
     password = db.Column(db.String(128))
     first_name = db.Column(db.String(128))
+    is_admin = db.Column(db.Boolean, default=False)
