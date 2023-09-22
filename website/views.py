@@ -29,9 +29,12 @@ def home():
             if len(note) < 1:
                 flash('Note is too short!', category='error')
             else:
-                new_note = Note(data=note, user_id=current_user.id, book_id=book_id,rating=rating)  # Thêm book_id vào ghi chú
-                db.session.add(new_note)
-                db.session.commit()
+                new_note = Note(data=note, user_id=current_user.id, book_id=book_id,rating=rating)
+                if not new_note.user_id==current_user.id:
+                    db.session.add(new_note)
+                    db.session.commit()
+                else:
+                    flash('This user has already commented on this book!', category='error')
         elif 'create_book' in request.form:
             book_title = request.form.get('book_title')
             author = request.form.get('author')
@@ -49,9 +52,8 @@ def home():
                 cover.save(os.path.join(cover_path, cover.filename))
                 content_path = os.path.join(current_app.config['UPLOADS_DEFAULT_DEST'], 'content')
                 content.save(os.path.join(content_path, content.filename))
-    notes = Note.query.all()
     books = Book.query.all()
-    return render_template('home.html', user=current_user, notes=notes, books=books)
+    return render_template('home.html', user=current_user, books=books)
 
 
 @views.route('/delete/<int:id>')
