@@ -81,9 +81,17 @@ ul li .star-rating label.star {
 }
 /* CSS for rating bars */
 
+.rating-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 10px; /* Khoảng cách giữa các rating container */
+}
+
 
 .rating-bar {
   /* flex: 1; */
+  
   display: flex;
   align-items: center;
 }
@@ -91,13 +99,22 @@ ul li .star-rating label.star {
 .label {
   margin-right: 10px;
   font-weight: bold;
+  
+}
+.percentage-label {
+  color: #000;
+  font-weight: bold;
+}
+.numbers {
+  margin-right: 10px; /* Khoảng cách giữa số liệu và thanh màu */
+  color: #000;
+  font-weight: bold;
 }
 
 .bar {
   height: 20px;
   background-color: #4caf50;
+  margin-bottom: 3px;
+  
 }
 
-.percentage {
-  margin-left: 10px;
-}

@@ -19,8 +19,14 @@ class Book(db.Model):
         rating_counts = Counter(ratings)
         if total_ratings == 0:
             total_ratings = 1
-        rating_percentages = [rating_counts[i] / total_ratings * 100 for i in range(1, 6)]
+        rating_percentages = [round(rating_counts[i] / total_ratings * 100 ,2)for i in range(1, 6)]
         return rating_percentages
+    
+    def rating_numbers(self):
+        ratings = [note.rating for note in self.notes]
+        rating_counts = Counter(ratings)
+        rating_numbers = [rating_counts[i]  for i in range(1, 6)]
+        return rating_numbers 
 
 
 

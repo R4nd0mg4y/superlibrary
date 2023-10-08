@@ -56,7 +56,7 @@ def home():
                 content.save(os.path.join(content_path, content.filename))
     
     books = Book.query.all()
-    books_with_ratings = [(book, book.rating_percentages()) for book in books]
+    books_with_ratings = [(book, book.rating_percentages(), book.rating_numbers()) for book in books]
     return render_template('home.html', user=current_user, books_with_ratings = books_with_ratings, books = books )
 
 

@@ -115,7 +115,7 @@
 
     <h2>Books and Notes:</h2>
     <ul>
-        {% for book, percentages in books_with_ratings %}
+        {% for book, percentages , numbers in books_with_ratings %}
         <li>
             <h3>Book Title: {{ book.title }}</h3>
             <h4>Author: {{ book.author }}</h4>
@@ -129,9 +129,12 @@
             <div class="rating-stats">
                 {% for i in range(1,6) %}
                 <div class="rating-bar">
-                    <div class="label">{{ i }}</div>
-                    <div class="bar" style="width: {{ percentages[i-1]/10 }}%"></div>
-                    <div class="percentage">{{ percentages[i-1] }}%</div>
+                    <div class="label">{{ i }} sao :</div>
+                    <div class="numbers">{{ numbers[i-1] }}</div>
+                    <div class="bar" style="width: {{ percentages[i-1]/10 }}%">
+                        <div class="percentage-label">{{ percentages[i-1] }}%</div>
+                    </div>
+    
                 </div>
                 {% endfor %}
             </div>
