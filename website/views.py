@@ -54,8 +54,10 @@ def home():
                 cover.save(os.path.join(cover_path, cover.filename))
                 content_path = os.path.join(current_app.config['UPLOADS_DEFAULT_DEST'], 'content')
                 content.save(os.path.join(content_path, content.filename))
+    
     books = Book.query.all()
-    return render_template('home.html', user=current_user, books=books)
+    books_with_ratings = [(book, book.rating_percentages()) for book in books]
+    return render_template('home.html', user=current_user, books_with_ratings = books_with_ratings, books = books )
 
 
 @views.route('/delete/<int:id>')

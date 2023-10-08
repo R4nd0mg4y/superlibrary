@@ -3,7 +3,7 @@ from flask_login import UserMixin
 from sqlalchemy.sql import func
 from datetime import datetime
 import pytz
-
+from collections import Counter
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(256))
@@ -13,7 +13,15 @@ class Book(db.Model):
     content = db.Column(db.String(256))  # Trường content để lưu tên file PDF
     notes = db.relationship('Note') # Quan hệ một-nhiều với Ghi chú
 
-# Mô hình cho Ghi chú (Notes)
+    def rating_percentages(self):
+        ratings = [note.rating for note in self.notes]
+        total_ratings = len(ratings)
+        rating_counts = Counter(ratings)
+        if total_ratings == 0:
+            total_ratings = 1
+        rating_percentages = [rating_counts[i] / total_ratings * 100 for i in range(1, 6)]
+        return rating_percentages
+
 
 
 class Note(db.Model):
@@ -32,3 +40,4 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(128))
     first_name = db.Column(db.String(128))
     is_admin = db.Column(db.Boolean, default=False)
+
