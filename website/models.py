@@ -27,6 +27,15 @@ class Book(db.Model):
         rating_counts = Counter(ratings)
         rating_numbers = [rating_counts[i]  for i in range(1, 6)]
         return rating_numbers 
+    
+    def rating_averages(self):
+        ratings = [note.rating for note in self.notes]
+        total_ratings = len(ratings)
+        rating_counts = Counter(ratings)
+        if total_ratings == 0:
+            total_ratings = 1
+        rating_averages = round(sum(ratings)/total_ratings,2)
+        return rating_averages
 
 
 

@@ -110,6 +110,12 @@ ul li .star-rating label.star {
   color: #000;
   font-weight: bold;
 }
+.averages-label{
+  color: #000;
+  font-weight: bold;
+}
+
+
 
 .bar {
   height: 20px;
