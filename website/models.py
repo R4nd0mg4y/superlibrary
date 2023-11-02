@@ -56,3 +56,4 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(128))
     is_admin = db.Column(db.Boolean, default=False)
 
+

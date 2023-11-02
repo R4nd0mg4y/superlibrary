@@ -12,11 +12,11 @@ import os
 
 views = Blueprint('views',__name__)
 
-cover_uploads = UploadSet('cover', IMAGES)
-content_uploads = UploadSet('content', DOCUMENTS)
+# cover_uploads = UploadSet('cover', IMAGES)
+# content_uploads = UploadSet('content', DOCUMENTS)
 
 # Cấu hình tập tin tải lên cho ứng dụng Flask
-configure_uploads(current_app, (cover_uploads, content_uploads))
+# configure_uploads(current_app, (cover_uploads, content_uploads))
 
 @views.route('/', methods=['GET', 'POST'])
 @login_required

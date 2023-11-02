@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <div class="container">
-    <h1 align="center">Notes</h1>
+    
 
     <!-- Form to create a new book -->
     {%if user.is_admin == 1%}
@@ -53,65 +53,7 @@
     </form>
     {% endif %}
 
-    <!-- Form to create a new note -->
-    <form method="POST" action="/">
-        <div class="form-group">
-            <label for="book_id">Select a Book:</label>
-            <select class="form-control" id="book_id" name="book_id" required>
-                {% for book in books %}
-                <option value="{{ book.id }}">{{ book.title }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="note">Add Note:</label>
-            <textarea
-                class="form-control"
-                id="note"
-                name="note"
-                rows="3"
-                required
-            ></textarea>
-        </div>
-        <div class="form-group star-rating">
-          <label for="rating">Rating:</label>
-          <input type="hidden" id="rating" name="rating" value="0">
-          <i class="fa fa-star" data-rating="1"></i>
-          <i class="fa fa-star" data-rating="2"></i>
-          <i class="fa fa-star" data-rating="3"></i>
-          <i class="fa fa-star" data-rating="4"></i>
-          <i class="fa fa-star" data-rating="5"></i>
-      </div>
-      
-      <!-- Display the selected rating -->
-      <p id="selected-rating">Rating: 0</p>
-      <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const stars = document.querySelectorAll(".star-rating i");
-            const ratingInput = document.getElementById("rating");
-            const selectedRating = document.getElementById("selected-rating");
-        
-            // Initialize the selected rating based on the hidden input's value
-            selectedRating.textContent = `Rating: ${ratingInput.value}`;
-        
-            // Add click event listeners to the star icons
-            stars.forEach(star => {
-                star.addEventListener("click", function() {
-                    const ratingValue = parseInt(star.getAttribute("data-rating"));
-                    ratingInput.value = ratingValue;
-                    selectedRating.textContent = `Rating: ${ratingValue}`;
-                    
-                    // You can optionally add code here to submit the form when a star is clicked
-                });
-            });
-        });
-        </script>
     
-           
-        <button type="submit" name="create_note" class="btn btn-primary">
-            Add Note
-        </button>
-    </form>
 
     <h2>Books and Notes:</h2>
     <ul>
@@ -139,6 +81,43 @@
                 </div>
                 {% endfor %}
             </div>
+            <h3>Add Note for {{ book.title }}</h3>
+            <form method="POST" action="/">
+                <div class="form-group">
+                    <label for="note">Add Note:</label>
+                    <textarea class="form-control" id="note{{ book.id }}" name="note" rows="3" required></textarea>
+                </div>
+                <div class="form-group star-rating">
+                    <label for="rating{{ book.id }}">Rating:</label>
+                    <input type="hidden" id="rating{{ book.id }}" name="rating" value="0">
+                    <i class="fa fa-star" data-rating="1"></i>
+                    <i class="fa fa-star" data-rating="2"></i>
+                    <i class="fa fa-star" data-rating="3"></i>
+                    <i class="fa fa-star" data-rating="4"></i>
+                    <i class="fa fa-star" data-rating="5"></i>
+                </div>
+                <p id="selected-rating{{ book.id }}">Rating: 0</p>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        const stars = document.querySelectorAll(".star-rating i");
+                        const ratingInput = document.getElementById("rating{{ book.id }}");
+                        const selectedRating = document.getElementById("selected-rating{{ book.id }}");
+                        
+                        selectedRating.textContent = `Rating: ${ratingInput.value}`;
+                        
+                        stars.forEach(star => {
+                            star.addEventListener("click", function() {
+                                const ratingValue = parseInt(star.getAttribute("data-rating"));
+                                ratingInput.value = ratingValue;
+                                selectedRating.textContent = `Rating: ${ratingValue}`;
+                            });
+                        });
+                    });
+                </script>
+                <!-- Pass book.id as a hidden input to the form -->
+                <input type="hidden" name="book_id" value="{{ book.id }}">
+                <button type="submit" name="create_note" class="btn btn-primary">Add Note</button>
+            </form>
             <ul>
                 {% for note in book.notes %}
                 <li>
@@ -161,6 +140,7 @@
                 {% endif %}
                 {% endfor %}
             </ul>
+            
         </li>
         {% endfor %}
     </ul>
