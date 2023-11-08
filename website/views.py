@@ -6,17 +6,16 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES, DOCUMENTS
 import io 
 from datetime import datetime
 import pytz
-# from werkzeug.utils import secure_filename
 from . import db
 import os
+from wtforms import StringField,SubmitField,PasswordField,BooleanField,ValidationError
+from wtforms.validators import DataRequired,EqualTo,Length
+from flask_wtf import FlaskForm
+
 
 views = Blueprint('views',__name__)
 
-# cover_uploads = UploadSet('cover', IMAGES)
-# content_uploads = UploadSet('content', DOCUMENTS)
 
-# Cấu hình tập tin tải lên cho ứng dụng Flask
-# configure_uploads(current_app, (cover_uploads, content_uploads))
 
 @views.route('/', methods=['GET', 'POST'])
 @login_required
@@ -46,6 +45,7 @@ def home():
             if not book_title or not author:
                 flash('Please fill in all the book details!', category='error')
             else:
+                flash('Book added sucessfully', category='sucess')
                 new_book = Book(title=book_title, author=author, cover=cover.filename, content=content.filename)
                 db.session.add(new_book)
                 db.session.commit()
@@ -171,3 +171,48 @@ def update_book(id):
             return redirect('/')
 
     return render_template('update_book.html', book=book)
+
+#created a search form
+class SearchForm(FlaskForm):
+    searched=StringField("Searched",validators=[DataRequired()])
+    submit=SubmitField("submit")
+class BookForm(FlaskForm):
+    title =StringField("Title",validators=[DataRequired()])
+    author = StringField("Author",validators=[DataRequired()])
+    notes =StringField("Notes",validators=[DataRequired()])
+    content=StringField("Content",validators=[DataRequired()])
+    submit=SubmitField("submit")
+
+@views.context_processor
+def base():
+    form=SearchForm()
+    return dict(form = form )
+
+#search funcion
+@views.route('/search', methods=['GET', 'POST'])
+def search():
+    form = SearchForm()
+    searched = []
+    books_with_ratings = []
+
+    if form.validate_on_submit():
+        search_query = form.searched.data.strip().capitalize()
+        # Tìm sách theo tiêu đề hoặc tác giả
+        searched = Book.query.filter((Book.title.ilike(f'%{search_query}%')) | (Book.author.ilike(f'%{search_query}%'))).all()
+
+        if searched:  # Kiểm tra nếu có sách tìm thấy
+            for book in searched:
+                percentages = book.rating_percentages()
+                numbers = book.rating_numbers()
+                averages = book.rating_averages()
+                title = book.title
+                books_with_ratings.append((book, percentages, numbers, averages))
+
+            return render_template('search.html', form=form, searched=searched, user=current_user, books_with_ratings=books_with_ratings,title=title)
+        else:
+            flash("Không tìm thấy quyển sách nào")
+            return render_template("home.html",user=current_user)
+    
+    return render_template("home.html",user=current_user)
+
+
